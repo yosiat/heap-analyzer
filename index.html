@@ -106,6 +106,7 @@ $ RAILS_ENV=production ruby -I. -rx -e'require "config/environment"; GC.start; p
   </div>
 </div>
 
+
 <script>
   var source = $("#object-list").html();
   var template = Handlebars.compile(source);
@@ -122,9 +123,9 @@ $ RAILS_ENV=production ruby -I. -rx -e'require "config/environment"; GC.start; p
   var parentsIndex = {};
 
   function addParents(element) {
-    var address = element.getAttribute("data-address");
+    var address = +element.getAttribute("data-address");
     var parentsAddress = parentsIndex[address];
-    
+
     if(parentsAddress !== undefined) {
       var parents = parentsAddress.map(function(address)  { return objIndex[address]; });
 
@@ -315,20 +316,20 @@ $ RAILS_ENV=production ruby -I. -rx -e'require "config/environment"; GC.start; p
 
             // Parse each line and add it to the index
             var obj = JSON.parse(line);
-            objIndex[obj.address] = obj;
+            objIndex[+obj.address] = obj;
             objects.push(obj);
 
-              // add object to the parents index
-              // key - child, value = parents
-              obj.references = obj.references || [];
+            // add object to the parents index
+            // key - child, value = parents
+            obj.references = obj.references || [];
 
-              var parentAddress = obj.address;
-              obj.references.forEach(function(childAddress) {
-                var indexValue = parentsIndex[childAddress] || [];
-                indexValue.push(parentAddress);
+            var parentAddress = +obj.address;
+            obj.references.forEach(function(childAddress) {
+              var indexValue = parentsIndex[+childAddress] || [];
+              indexValue.push(parentAddress);
 
-                parentsIndex[childAddress] =  indexValue;
-              });
+              parentsIndex[+childAddress] =  indexValue;
+            });
         }
 
         // End of file
