@@ -114,12 +114,8 @@ $ RAILS_ENV=production ruby -I. -rx -e'require "config/environment"; GC.start; p
   var plist = $("#parent-list").html();
   var plistTemplate = Handlebars.compile(plist);
 
-<<<<<<< HEAD
   var $uploadProgressBar = $("#upload-progress-bar");
 
-  var objects = [];
-=======
->>>>>>> Removing the objects global variable since we now use the objects index of parents index and there is no need for duplication of data.
   var objIndex = {};
 
   // Map where the key is child object address, and the value is list parent's addres
@@ -301,6 +297,7 @@ $ RAILS_ENV=production ruby -I. -rx -e'require "config/environment"; GC.start; p
 
     var objects = [];
     objIndex = {};
+    parentsIndex = {};
 
     // Start reading all files
     fileNavigator.readSomeLines(0, function linesReadHandler(err, index, lines, eof, progress) {
@@ -344,6 +341,9 @@ $ RAILS_ENV=production ruby -I. -rx -e'require "config/environment"; GC.start; p
 
           var genInfo = objectsByGeneration(objects);
           plotGeneration($('#generation-info'), genInfo);
+
+
+          objects = [];
 
           return;
         }
